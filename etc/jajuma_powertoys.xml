@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @author    JaJuMa GmbH <info@jajuma.de>
+ * @copyright Copyright (c) 2023 JaJuMa GmbH <https://www.jajuma.de>. All rights reserved.
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
+ */
+-->
+
+<powertoys xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Jajuma_PowerToys:etc/jajuma_powertoys.xsd">
+    <quickaction id="todo_list" class="Jajuma\PotTodo\Block\PowerToys\Todo">
+<!--    block class can be extendable for more complicated logic-->
+        <label translate="true">Todo List</label>
+        <arguments>
+<!--        Enable (default: false): Turn on/off the widget -->
+            <argument name="enable">true</argument>
+<!--        Action type: Popup/button-->
+            <argument name="action_type">popup</argument>
+<!--        Icon -->
+            <argument name="widget_icon">Jajuma_PowerToys::svg/heroicons/outline/document-text.svg</argument>
+            <argument name="template">Jajuma_PotTodo::custom_widget/magewire_todo_list.phtml</argument>
+<!--        Magewire: Add if we want to use magewire component -->
+            <argument name="magewire">Jajuma\PotTodo\Magewire\Todo</argument>
+<!--        Lazyload (default: false): Lazyload component, template will be rendering when page load or render when click open popup -->
+            <argument name="lazyload">true</argument>
+<!--        Cache Lifetime (default: 0 mean nocache): Time to cache, shouldn't use when add Magewire component -->
+            <argument name="cache_lifetime">0</argument>
+<!--        Sort order (default: 0 mean first position) -->
+            <argument name="sort_order">999</argument>
+<!--        Add acl resource here-->
+            <argument name="acl_resource"></argument>
+        </arguments>
+    </quickaction>
+</powertoys>

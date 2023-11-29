@@ -1,0 +1,130 @@
+<?php
+/**
+ * @author    JaJuMa GmbH <info@jajuma.de>
+ * @copyright Copyright (c) 2023 JaJuMa GmbH <https://www.jajuma.de>. All rights reserved.
+ * @license   http://opensource.org/licenses/mit-license.php MIT License
+ */
+
+use Jajuma\PowerToys\Block\Widget\QuickAction;
+use Magento\Framework\Escaper;
+
+/** @var QuickAction $block */
+/** @var Escaper $escaper */
+$magewire = $block->getMagewire();
+$tasks = $magewire->getTasks();
+?>
+<div id="powertoys-todo-checklist">
+    <div class="powertoys-todo-new-task">
+        <input type="text"
+               placeholder="<?= 'Add new task' ?>"
+               wire:model.defer="task"
+               minlength="4"
+               class="form-input flex-grow disabled:opacity-50"
+               wire:loading.attr="disabled"
+        />
+        <button type="button"
+                class="btn btn-primary disabled:opacity-50"
+                wire:click="saveTask"
+                wire:loading.attr="disabled"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="24" height="24" style="margin-right:0">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+        </button>
+    </div>
+    <div class="powertoys-todo-error-message">
+        <?php if ($magewire->hasError('task')) : ?>
+            <p><?= $magewire->getError('task') ?></p>
+        <?php elseif($magewire->getMessageTodo()): ?>
+            <p><?= $magewire->getMessageTodo() ?></p>
+        <?php endif; ?>
+    </div>
+    <?php if (count($tasks) > 0): ?>
+    <ul class="powertoys-todo-tasklist">
+        <?php foreach($tasks as $item): ?>
+            <li>
+                <?= $item['task'] ?>
+                <span wire:click="removeTask('<?= $item['todo_id'] ?>')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                </span>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php endif; ?>
+    <div class="powertoys-todo-footer">
+        <?= 'You have '.count($tasks).' pending tasks' ?>
+        <button wire:click="removeAllTask"><?= 'Clear All' ?></button>
+    </div>
+    <style>
+        .powertoys-modal[data-action-id="todo_list"] {
+            max-width: 600px;
+        }
+
+        .powerToysModalWrapper .powertoys-modal.powertoys-modal-todo_list {
+            max-height: 80vh;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            overflow-y: auto;
+            padding-bottom: 10px;
+        }
+
+        .powertoys-todo-new-task,
+        .powertoys-todo-footer {
+            display: flex;
+            gap: 8px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .powertoys-todo-new-task input {
+            flex: 1;
+        }
+
+        .powertoys-todo-new-task button {
+            margin: 0;
+        }
+
+        .powertoys-todo-error-message {
+            margin: 8px 0;
+        }
+
+        .powertoys-todo-tasklist {
+            overflow-y: auto;
+        }
+
+        .powertoys-todo-tasklist li {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            align-items: center;
+            padding: 4px 8px;
+            background: rgb(239 239 239 / 20%);
+            border-radius: 4px;
+        }
+
+        .jajumaLightMode ~ .powerToysModalWrapper .powertoys-todo-tasklist li {
+            background: rgba(255, 255, 255, .67);
+        }
+
+        .powertoys-todo-tasklist li span {
+            min-width: 25px;
+        }
+
+        .powertoys-todo-tasklist li span svg {
+            width: 18px;
+            transition: .1s ease all;
+        }
+
+        .powertoys-todo-tasklist li span:hover svg {
+            color: var(--jajuma-develop-module);
+        }
+
+        .powertoys-todo-footer {
+            margin: 10px 0 0;
+        }
+    </style>
+</div>

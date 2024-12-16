@@ -23,7 +23,7 @@
 <!--        Magewire: Add if we want to use magewire component -->
             <argument name="magewire">Jajuma\PotTodo\Magewire\Todo</argument>
 <!--        Lazyload (default: false): Lazyload component, template will be rendering when page load or render when click open popup -->
-            <argument name="lazyload">true</argument>
+            <argument name="lazyload">false</argument>
 <!--        Cache Lifetime (default: 0 mean nocache): Time to cache, shouldn't use when add Magewire component -->
             <argument name="cache_lifetime">0</argument>
 <!--        Sort order (default: 0 mean first position) -->
